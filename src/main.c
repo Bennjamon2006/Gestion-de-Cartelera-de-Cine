@@ -59,6 +59,8 @@ void menu()
       esperarTecla();
     }
   } while (opcion != 0);
+
+  liberarMemoria(&cartelera);
 }
 
 void mensajeMenu()

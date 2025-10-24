@@ -182,3 +182,28 @@ void agregaPelicula(Pelicula **inicio)
 
   actual->siguiente = ingresarPelicula(actual->id + 1);
 }
+
+void liberarMemoria(Pelicula **inicio)
+{
+  if (inicio == NULL)
+  {
+    printf("No hay memoria para liberar.\n");
+    return;
+  }
+
+  Pelicula *actual = *inicio;
+  Pelicula *siguiente;
+  int n = 0;
+
+  while (actual != NULL)
+  {
+    siguiente = actual->siguiente;
+    free(actual);
+    actual = siguiente;
+    n++;
+  }
+
+  *inicio = NULL;
+
+  printf("Se liberaron %d nodos de memoria.\n", n);
+}

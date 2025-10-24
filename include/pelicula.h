@@ -15,3 +15,4 @@ void cargarPeliculas(Pelicula **inicio);
 void mostrarPelicula(Pelicula *pelicula);
 void mostrarCartelera(Pelicula *inicio);
 void agregaPelicula(Pelicula **inicio);
+void liberarMemoria(Pelicula **inicio);
