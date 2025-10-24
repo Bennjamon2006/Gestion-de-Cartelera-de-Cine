@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "../include/utilidades.h"
+#include "../include/pelicula.h"
 
 void mensajeMenu();
 void menu();
@@ -16,6 +17,7 @@ int main()
 void menu()
 {
   int opcion;
+  Pelicula *cartelera = NULL;
 
   do
   {
@@ -29,7 +31,7 @@ void menu()
       printf("Agregar Pelicula a la cartelera seleccionado.\n");
       break;
     case 2:
-      printf("Mostrar Cartelera seleccionado.\n");
+      mostrarCartelera(cartelera);
       break;
     case 3:
       printf("Mostrar Peliculas Ordenadas por Puntuacion seleccionado.\n");
@@ -41,7 +43,7 @@ void menu()
       printf("Guardar Cartelera en Archivo seleccionado.\n");
       break;
     case 6:
-      printf("Cargar Cartelera desde Archivo seleccionado.\n");
+      cargarPeliculas(&cartelera);
       break;
     case 0:
       printf("Saliendo del programa.\n");
@@ -51,7 +53,10 @@ void menu()
       break;
     }
 
-    esperarTecla();
+    if (opcion != 0)
+    {
+      esperarTecla();
+    }
   } while (opcion != 0);
 }
 
