@@ -1,20 +1,9 @@
-/*
-ID: Entero mayor o igual a 0.
-T´ıtulo: Cadena de hasta 100 caracteres.
-Genero: Cadena de hasta 30 caracteres.
-Clasificaci´on: Cadena de hasta 10 caracteres.
-Duraci´on: Entero mayor a 0.
-A˜no: Entero desde 1990 hasta 2025.
-Director: Cadena de hasta 50 caracteres.
-Puntuaci´on: Punto flotante entre 0.0 hasta 10.0.
-Nodo siguiente: Direcci´on de memoria que apunte a la siguiente pel´ıcula.
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "../include/pelicula.h"
+#include "../include/utilidades.h"
 
 const char rutaArchivoPeliculas[] = "../peliculas.txt";
 
@@ -129,4 +118,67 @@ void mostrarCartelera(Pelicula *inicio)
     mostrarPelicula(aux);
     aux = aux->siguiente;
   }
+}
+
+Pelicula *ingresarPelicula(int id)
+{
+  Pelicula *pelicula = malloc(sizeof(Pelicula));
+  char *buffer;
+
+  printf("Ingrese los datos de la pelicula:\n");
+  printf("Titulo: ");
+  pelicula->titulo[0] = '\0';
+  buffer = ingresarConLimite(100);
+  strcpy(pelicula->titulo, buffer);
+  free(buffer);
+
+  printf("Genero: ");
+  pelicula->genero[0] = '\0';
+  buffer = ingresarConLimite(30);
+  strcpy(pelicula->genero, buffer);
+  free(buffer);
+
+  printf("Clasificacion: ");
+  pelicula->clasificacion[0] = '\0';
+  buffer = ingresarConLimite(10);
+  strcpy(pelicula->clasificacion, buffer);
+  free(buffer);
+
+  pelicula->duracion = ingresarEnteroEnRango("Duracion (minutos): ", 1, 500);
+
+  pelicula->anio = ingresarEnteroEnRango("Anio (1990-2025): ", 1990, 2025);
+
+  printf("Director: ");
+  pelicula->director[0] = '\0';
+  buffer = ingresarConLimite(50);
+  strcpy(pelicula->director, buffer);
+  free(buffer);
+
+  pelicula->puntuacion = ingresarFlotanteEnRango("Puntuacion (0.0 - 10.0): ", 0.0, 10.0);
+
+  pelicula->id = id;
+
+  pelicula->siguiente = NULL;
+
+  printf("Pelicula con ID %d ingresada exitosamente.\n", pelicula->id);
+
+  return pelicula;
+}
+
+void agregaPelicula(Pelicula **inicio)
+{
+  if (*inicio == NULL)
+  {
+    *inicio = ingresarPelicula(1);
+    return;
+  }
+
+  Pelicula *actual = *inicio;
+
+  while (actual->siguiente != NULL)
+  {
+    actual = actual->siguiente;
+  }
+
+  actual->siguiente = ingresarPelicula(actual->id + 1);
 }

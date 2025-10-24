@@ -3,6 +3,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #include "../include/utilidades.h"
 
@@ -74,6 +75,28 @@ int ingresarEntero(const char *mensaje)
   return valor;
 }
 
+int ingresarEnteroEnRango(const char *mensaje, int min, int max)
+{
+  int valor;
+
+  do
+  {
+    valor = ingresarEntero(mensaje);
+
+    if (valor < min || valor > max)
+    {
+      printf("Entrada fuera de rango. Por favor, ingrese un numero entre %d y %d.\n", min, max);
+    }
+    else
+    {
+      break;
+    }
+
+  } while (1);
+
+  return valor;
+}
+
 float ingresarFlotante(const char *mensaje)
 {
   float valor;
@@ -97,6 +120,28 @@ float ingresarFlotante(const char *mensaje)
     }
 
     free(entrada);
+
+  } while (1);
+
+  return valor;
+}
+
+float ingresarFlotanteEnRango(const char *mensaje, float min, float max)
+{
+  float valor;
+
+  do
+  {
+    valor = ingresarFlotante(mensaje);
+
+    if (valor < min || valor > max)
+    {
+      printf("Entrada fuera de rango. Por favor, ingrese un numero entre %.2f y %.2f.\n", min, max);
+    }
+    else
+    {
+      break;
+    }
 
   } while (1);
 
@@ -169,4 +214,165 @@ void esperarTecla()
 
   // Restaurar la configuracion original de la terminal
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+}
+
+char *ingresarConLimite(int limite)
+{
+  char *cadena = (char *)malloc((limite + 1) * sizeof(char));
+  int c, cursor = 0, largo = 0;
+  struct termios oldt, newt;
+  char msg[] = " (límite alcanzado)";
+  int msg_len = strlen(msg), msgMostrado = 0;
+
+  if (cadena == NULL)
+  {
+    printf("Error al asignar memoria\n");
+    exit(1);
+  }
+
+  tcflush(STDIN_FILENO, TCIFLUSH);
+
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+  while ((c = getchar()) != '\n' && c != EOF)
+  {
+
+    if (isprint(c))
+    {
+      if (largo < limite)
+      {
+        for (int i = largo; i > cursor; i--)
+        {
+          cadena[i] = cadena[i - 1];
+        }
+
+        cadena[cursor] = (char)c;
+        largo++;
+        cursor++;
+
+        int cursor_temp = cursor - 1;
+
+        while (cursor_temp < largo)
+        {
+          putchar(cadena[cursor_temp]);
+          cursor_temp++;
+        }
+
+        while (cursor_temp > cursor)
+        {
+          putchar('\b');
+          cursor_temp--;
+        }
+      }
+      else
+      {
+        int cursor_temp = cursor;
+
+        while (cursor_temp < largo)
+        {
+          putchar(cadena[cursor_temp]);
+          cursor_temp++;
+        }
+
+        printf("%s", msg);
+
+        cursor_temp += msg_len;
+
+        while (cursor_temp > cursor + 1)
+        {
+          putchar('\b');
+          cursor_temp--;
+        }
+
+        msgMostrado = 1;
+      }
+    }
+    else if (c == 127 || c == 8) // Manejar retroceso
+    {
+      if (cursor > 0)
+      {
+        cursor--;
+        largo--;
+
+        putchar('\b');
+
+        int cursor_temp = cursor;
+
+        while (cursor_temp < largo)
+        {
+          cadena[cursor_temp] = cadena[cursor_temp + 1];
+          putchar(cadena[cursor_temp]);
+          cursor_temp++;
+        }
+
+        putchar(' ');
+
+        if (msgMostrado)
+        {
+
+          while (cursor_temp < limite)
+          {
+            if (cursor_temp < largo)
+            {
+              putchar(cadena[cursor_temp]);
+            }
+            else
+            {
+              putchar(' ');
+            }
+
+            cursor_temp++;
+          }
+
+          while (cursor_temp < largo + msg_len)
+          {
+            putchar(' ');
+            cursor_temp++;
+          }
+
+          msgMostrado = 0;
+        }
+
+        while (cursor_temp > cursor - 1)
+        {
+          putchar('\b');
+          cursor_temp--;
+        }
+      }
+    }
+    else if (c == 27) // Manejar secuencias de escape (flechas)
+    {
+      getchar();     // Ignorar el siguiente caracter '['
+      c = getchar(); // Leer la tecla real
+
+      if (c == 'C') // Flecha derecha
+      {
+        if (cursor < largo)
+        {
+          putchar(cadena[cursor]);
+          cursor++;
+        }
+      }
+      else if (c == 'D') // Flecha izquierda
+      {
+        if (cursor > 0)
+        {
+          putchar('\b');
+          cursor--;
+        }
+      }
+    }
+  }
+
+  cadena[largo] = '\0';
+  printf("\n");
+
+  // Restaurar la configuracion original de la terminal
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+
+  return cadena;
 }

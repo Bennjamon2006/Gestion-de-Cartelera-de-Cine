@@ -28,7 +28,8 @@ void menu()
     switch (opcion)
     {
     case 1:
-      printf("Agregar Pelicula a la cartelera seleccionado.\n");
+      agregaPelicula(&cartelera);
+
       break;
     case 2:
       mostrarCartelera(cartelera);
