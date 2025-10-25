@@ -41,7 +41,7 @@ void menu()
       buscarPeliculaPorTitulo(cartelera);
       break;
     case 5:
-      printf("Guardar Cartelera en Archivo seleccionado.\n");
+      guardarPeliculasEnArchivo(cartelera);
       break;
     case 6:
       cargarPeliculas(&cartelera);

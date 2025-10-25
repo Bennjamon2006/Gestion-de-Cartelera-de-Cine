@@ -304,3 +304,44 @@ void mostrarPeliculasOrdenadasPorPuntuacion(Pelicula *inicio)
     mostrarPelicula(vector[i]);
   }
 }
+
+void guardarPeliculasEnArchivo(Pelicula *inicio)
+{
+  if (inicio == NULL)
+  {
+    printf("No hay peliculas para guardar.\n");
+    return;
+  }
+
+  FILE *archivo = fopen(rutaArchivoPeliculas, "w");
+  Pelicula *actual = inicio;
+  int n = 0;
+
+  if (archivo == NULL)
+  {
+    printf("Error al abrir el archivo para escritura.\n");
+    return;
+  }
+
+  while (actual != NULL)
+  {
+    fprintf(
+        archivo,
+        "%d,%s,%s,%s,%d,%d,%s,%.1f\n",
+        actual->id,
+        actual->titulo,
+        actual->genero,
+        actual->clasificacion,
+        actual->duracion,
+        actual->anio,
+        actual->director,
+        actual->puntuacion);
+
+    actual = actual->siguiente;
+    n++;
+  }
+
+  fclose(archivo);
+
+  printf("Se guardaron %d peliculas en el archivo exitosamente.\n", n);
+}

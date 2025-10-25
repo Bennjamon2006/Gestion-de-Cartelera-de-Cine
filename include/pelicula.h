@@ -18,3 +18,4 @@ void agregaPelicula(Pelicula **inicio);
 void liberarMemoria(Pelicula **inicio);
 void buscarPeliculaPorTitulo(Pelicula *inicio);
 void mostrarPeliculasOrdenadasPorPuntuacion(Pelicula *inicio);
+void guardarPeliculasEnArchivo(Pelicula *inicio);
