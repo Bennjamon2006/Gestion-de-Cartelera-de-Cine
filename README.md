@@ -1,12 +1,12 @@
 # Gestion de Cartelera de Cine
 
-Este proyecto es una solución a la tarea 1 correspondiente a la asignatura de Algoritmos y Progración impartida en la Universidad del Bío-Bío. El objetivo del proyecto es desarrollar un sistema para gestionar la cartelera de un cine, permitiendo la administración de películas, lo que incluye agregar, eliminar y listar películas disponibles.
+Este proyecto es una solución a la tarea 1 correspondiente a la asignatura de Algoritmos y Programación impartida en la Universidad del Bío-Bío. El objetivo del proyecto es desarrollar un sistema para gestionar la cartelera de un cine, permitiendo la administración de películas, lo que incluye agregar y listar películas disponibles.
 
 ---
 
 # Implementación
 
-El proyecto está implementado en el lenguaje de programación C, haciendo uso de listas enlazadas para gestionar la información de las películas. Así como funciones para manejar las operaciones de agregar, eliminar y listar películas.
+El proyecto está implementado en el lenguaje de programación C, haciendo uso de listas enlazadas para gestionar la información de las películas. Así como funciones para manejar las operaciones de agregar y listar películas.
 
 ---
 

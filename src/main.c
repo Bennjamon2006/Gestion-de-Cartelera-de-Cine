@@ -35,7 +35,7 @@ void menu()
       mostrarCartelera(cartelera);
       break;
     case 3:
-      printf("Mostrar Peliculas Ordenadas por Puntuacion seleccionado.\n");
+      mostrarPeliculasOrdenadasPorPuntuacion(cartelera);
       break;
     case 4:
       buscarPeliculaPorTitulo(cartelera);

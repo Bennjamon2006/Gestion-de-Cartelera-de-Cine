@@ -240,3 +240,67 @@ void buscarPeliculaPorTitulo(Pelicula *inicio)
 
   free(titulo);
 }
+
+int contarPeliculas(Pelicula *inicio)
+{
+  int contador = 0;
+  Pelicula *actual = inicio;
+
+  while (actual != NULL)
+  {
+    contador++;
+    actual = actual->siguiente;
+  }
+
+  return contador;
+}
+
+void llenarVector(Pelicula *inicio, Pelicula *vector[])
+{
+  Pelicula *actual = inicio;
+  int indice = 0;
+
+  while (actual != NULL)
+  {
+    vector[indice] = actual;
+    indice++;
+    actual = actual->siguiente;
+  }
+}
+
+void ordenarVectorPorPuntuacion(Pelicula *vector[], int n)
+{
+  for (int i = 0; i < n - 1; i++)
+  {
+    for (int j = 0; j < n - i - 1; j++)
+    {
+      if (vector[j]->puntuacion < vector[j + 1]->puntuacion)
+      {
+        Pelicula *temp = vector[j];
+        vector[j] = vector[j + 1];
+        vector[j + 1] = temp;
+      }
+    }
+  }
+}
+
+void mostrarPeliculasOrdenadasPorPuntuacion(Pelicula *inicio)
+{
+  int totalPeliculas = contarPeliculas(inicio);
+
+  if (totalPeliculas == 0)
+  {
+    printf("No hay peliculas para mostrar.\n");
+    return;
+  }
+
+  Pelicula *vector[totalPeliculas];
+  llenarVector(inicio, vector);
+  ordenarVectorPorPuntuacion(vector, totalPeliculas);
+
+  printf("Top Peliculas por Puntuacion:\n");
+  for (int i = 0; i < totalPeliculas; i++)
+  {
+    mostrarPelicula(vector[i]);
+  }
+}
