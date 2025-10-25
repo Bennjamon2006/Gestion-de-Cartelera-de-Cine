@@ -16,3 +16,4 @@ void mostrarPelicula(Pelicula *pelicula);
 void mostrarCartelera(Pelicula *inicio);
 void agregaPelicula(Pelicula **inicio);
 void liberarMemoria(Pelicula **inicio);
+void buscarPeliculaPorTitulo(Pelicula *inicio);

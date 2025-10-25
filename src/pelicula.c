@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "../include/pelicula.h"
 #include "../include/utilidades.h"
@@ -206,4 +207,41 @@ void liberarMemoria(Pelicula **inicio)
   *inicio = NULL;
 
   printf("Se liberaron %d nodos de memoria.\n", n);
+}
+
+Pelicula *buscarPorTitulo(Pelicula *inicio, const char *titulo)
+{
+  Pelicula *actual = inicio;
+
+  while (actual != NULL)
+  {
+    if (strcasecmp(actual->titulo, titulo) == 0)
+    {
+      return actual;
+    }
+    actual = actual->siguiente;
+  }
+
+  printf("Pelicula con titulo '%s' no encontrada.\n", titulo);
+
+  return NULL;
+}
+
+void buscarPeliculaPorTitulo(Pelicula *inicio)
+{
+  char *titulo;
+  Pelicula *encontrada;
+
+  printf("Ingrese el titulo de la pelicula a buscar: ");
+  titulo = ingresarConLimite(100);
+
+  encontrada = buscarPorTitulo(inicio, titulo);
+
+  if (encontrada != NULL)
+  {
+    printf("Pelicula encontrada:\n");
+    mostrarPelicula(encontrada);
+  }
+
+  free(titulo);
 }
