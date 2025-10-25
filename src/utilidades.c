@@ -216,7 +216,7 @@ void esperarTecla()
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-char *ingresarConLimite(int limite)
+char *ingresarConLimite(char *mensaje, int limite)
 {
   char *cadena = (char *)malloc((limite + 1) * sizeof(char));
   int c, cursor = 0, largo = 0;
@@ -229,6 +229,8 @@ char *ingresarConLimite(int limite)
     printf("Error al asignar memoria\n");
     exit(1);
   }
+
+  printf("%s", mensaje);
 
   tcflush(STDIN_FILENO, TCIFLUSH);
 
@@ -366,6 +368,15 @@ char *ingresarConLimite(int limite)
         }
       }
     }
+  }
+
+  if (largo == 0)
+  {
+    printf("\nNo se ingreso ningun caracter.\n");
+
+    free(cadena);
+
+    return ingresarConLimite(mensaje, limite);
   }
 
   cadena[largo] = '\0';

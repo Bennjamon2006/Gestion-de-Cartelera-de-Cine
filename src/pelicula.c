@@ -127,21 +127,18 @@ Pelicula *ingresarPelicula(int id)
   char *buffer;
 
   printf("Ingrese los datos de la pelicula:\n");
-  printf("Titulo: ");
   pelicula->titulo[0] = '\0';
-  buffer = ingresarConLimite(100);
+  buffer = ingresarConLimite("Titulo:", 100);
   strcpy(pelicula->titulo, buffer);
   free(buffer);
 
-  printf("Genero: ");
   pelicula->genero[0] = '\0';
-  buffer = ingresarConLimite(30);
+  buffer = ingresarConLimite("Genero: ", 30);
   strcpy(pelicula->genero, buffer);
   free(buffer);
 
-  printf("Clasificacion: ");
   pelicula->clasificacion[0] = '\0';
-  buffer = ingresarConLimite(10);
+  buffer = ingresarConLimite("Clasificacion: ", 10);
   strcpy(pelicula->clasificacion, buffer);
   free(buffer);
 
@@ -149,9 +146,8 @@ Pelicula *ingresarPelicula(int id)
 
   pelicula->anio = ingresarEnteroEnRango("Anio (1990-2025): ", 1990, 2025);
 
-  printf("Director: ");
   pelicula->director[0] = '\0';
-  buffer = ingresarConLimite(50);
+  buffer = ingresarConLimite("Director: ", 50);
   strcpy(pelicula->director, buffer);
   free(buffer);
 
@@ -232,8 +228,7 @@ void buscarPeliculaPorTitulo(Pelicula *inicio)
   char *titulo;
   Pelicula *encontrada;
 
-  printf("Ingrese el titulo de la pelicula a buscar: ");
-  titulo = ingresarConLimite(100);
+  titulo = ingresarConLimite("Ingrese el titulo de la pelicula a buscar: ", 100);
 
   encontrada = buscarPorTitulo(inicio, titulo);
 

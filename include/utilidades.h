@@ -6,4 +6,4 @@ float ingresarFlotanteEnRango(const char *mensaje, float min, float max);
 int confirmarAccion(const char *mensaje);
 void limpiarPantalla();
 void esperarTecla();
-char *ingresarConLimite(int limite);
+char *ingresarConLimite(char *mensaje, int limite);
